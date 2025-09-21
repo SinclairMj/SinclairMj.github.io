@@ -1,0 +1,352 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+---
+
+<BlogLayout title="Access Denied">
+  <main class="error-page">
+    <div class="error-container">
+      <div class="miner-character">
+        <div class="miner-body">
+          <div class="miner-head">
+            <div class="miner-hat">
+              <div class="hat-light"></div>
+            </div>
+            <div class="miner-face">
+              <div class="miner-eyes">
+                <div class="eye left-eye"></div>
+                <div class="eye right-eye"></div>
+              </div>
+              <div class="miner-mouth"></div>
+            </div>
+          </div>
+          <div class="miner-torso">
+            <div class="miner-arms">
+              <div class="arm left-arm"></div>
+              <div class="arm right-arm"></div>
+            </div>
+          </div>
+          <div class="miner-legs">
+            <div class="leg left-leg"></div>
+            <div class="leg right-leg"></div>
+          </div>
+        </div>
+        <div class="sign-board">
+          <div class="sign-content">
+            <h2>页面没有任何有趣的内容</h2>
+            <p>禁止爆破入内</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="error-message">
+        <h1>访问被拒绝</h1>
+        <p>这个页面暂时无法访问，请稍后再试。</p>
+        <div class="error-actions">
+          <a href="/blog" class="retry-button">重新尝试</a>
+          <a href="/" class="home-button">返回主页</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</BlogLayout>
+
+<style>
+  .error-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .error-container {
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .miner-character {
+    position: relative;
+    margin-bottom: 3rem;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .miner-body {
+    position: relative;
+    display: inline-block;
+  }
+
+  .miner-head {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    background: #8B4513;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    border: 3px solid #654321;
+  }
+
+  .miner-hat {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 20px;
+    background: #2C2C2C;
+    border-radius: 10px;
+    border: 2px solid #1a1a1a;
+  }
+
+  .hat-light {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background: #FFD700;
+    border-radius: 50%;
+    animation: blink 1.5s ease-in-out infinite;
+    box-shadow: 0 0 10px #FFD700;
+  }
+
+  .miner-face {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .miner-eyes {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 8px;
+  }
+
+  .eye {
+    width: 8px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    animation: blink 3s ease-in-out infinite;
+  }
+
+  .miner-mouth {
+    width: 20px;
+    height: 8px;
+    background: #000;
+    border-radius: 0 0 20px 20px;
+    margin: 0 auto;
+  }
+
+  .miner-torso {
+    width: 60px;
+    height: 80px;
+    background: #4169E1;
+    border-radius: 10px;
+    margin: 0 auto 10px;
+    border: 2px solid #1E3A8A;
+    position: relative;
+  }
+
+  .miner-arms {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 70px;
+  }
+
+  .arm {
+    width: 15px;
+    height: 40px;
+    background: #8B4513;
+    border-radius: 8px;
+    border: 2px solid #654321;
+  }
+
+  .miner-legs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .leg {
+    width: 20px;
+    height: 50px;
+    background: #2C2C2C;
+    border-radius: 10px;
+    border: 2px solid #1a1a1a;
+  }
+
+  .sign-board {
+    position: absolute;
+    top: 50px;
+    right: -200px;
+    width: 180px;
+    height: 120px;
+    background: #8B4513;
+    border: 4px solid #654321;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: swing 2s ease-in-out infinite;
+  }
+
+  .sign-board::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 20px solid #654321;
+  }
+
+  .sign-content {
+    text-align: center;
+    color: #FFD700;
+    font-weight: bold;
+    padding: 10px;
+  }
+
+  .sign-content h2 {
+    font-size: 14px;
+    margin: 0 0 5px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+
+  .sign-content p {
+    font-size: 12px;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+
+  .error-message {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .error-message h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #ff6b6b, #4ecdc4, #ff6b6b);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin: 0 0 1rem 0;
+  }
+
+  .error-message p {
+    font-size: 1.2rem;
+    color: rgba(0, 0, 0, 0.7);
+    margin: 0 0 2rem 0;
+  }
+
+  .error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .retry-button,
+  .home-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .retry-button {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    color: white;
+  }
+
+  .retry-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+  }
+
+  .home-button {
+    background: linear-gradient(45deg, #4ecdc4, #6ee7d7);
+    color: white;
+  }
+
+  .home-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+
+  @keyframes blink {
+    0%, 90%, 100% {
+      opacity: 1;
+    }
+    95% {
+      opacity: 0.3;
+    }
+  }
+
+  @keyframes swing {
+    0%, 100% {
+      transform: rotate(-5deg);
+    }
+    50% {
+      transform: rotate(5deg);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .sign-board {
+      position: static;
+      margin: 2rem auto 0;
+      transform: none;
+    }
+
+    .sign-board::before {
+      display: none;
+    }
+
+    .error-message h1 {
+      font-size: 2rem;
+    }
+
+    .error-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .retry-button,
+    .home-button {
+      width: 200px;
+      justify-content: center;
+    }
+  }
+</style>

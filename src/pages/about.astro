@@ -1,0 +1,105 @@
+---
+import Layout from '../layouts/Layout.astro';
+// 定义面列表和贴块数组
+const faces = ['front','back','right','left','top','bottom'];
+const stickers = Array(9).fill(null);
+---
+
+<Layout title="About">
+  <h1 class="page-title">About</h1>
+  <div class="scene">
+    <div class="cube">
+      {faces.map(face => (
+        <div class={`face ${face}`}>
+          <div class="grid">
+            {stickers.map(() => <div class="sticker" />)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    background: linear-gradient(to right, #ff6b6b, #4ecdc4, #ff6b6b);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin: 2rem 0;
+  }
+  .scene {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    perspective: 600px;
+  }
+  .cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s ease;
+  }
+  .face {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    /* 保持继承的背景颜色 */
+  }
+  .face .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 100%;
+    height: 100%;
+  }
+  .sticker {
+    border: 1px solid #fff;
+    box-sizing: border-box;
+    background: inherit;
+  }
+  .front  { background-color: #FFCDD2; transform: translateZ(100px); }
+  .back   { background-color: #FFE0B2; transform: rotateY(180deg) translateZ(100px); }
+  .right  { background-color: #FFF9C4; transform: rotateY(90deg) translateZ(100px); }
+  .left   { background-color: #C8E6C9; transform: rotateY(-90deg) translateZ(100px); }
+  .top    { background-color: #BBDEFB; transform: rotateX(90deg) translateZ(100px); }
+  .bottom { background-color: #E1BEE7; transform: rotateX(-90deg) translateZ(100px); }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cubeEl = document.querySelector('.cube');
+    if (!(cubeEl instanceof HTMLElement)) return;
+    const faces = ['front','back','right','left','top','bottom'];
+    const twistAxes: Record<string, string> = { front: 'Z', back: 'Z', right: 'X', left: 'X', top: 'Y', bottom: 'Y' };
+
+    setInterval(() => {
+      if (Math.random() < 0.5) {
+        // 随机扭动一个面
+        const face = faces[Math.floor(Math.random() * faces.length)];
+        const grid = document.querySelector(`.face.${face} .grid`);
+        if (!(grid instanceof HTMLElement)) return;
+        const axis = twistAxes[face];
+        const dir = Math.random() < 0.5 ? 90 : -90;
+        grid.style.transition = 'transform 0.5s';
+        grid.style.transform = `rotate${axis}(${dir}deg)`;
+        // 恢复到原始状态
+        setTimeout(() => { grid.style.transition = ''; grid.style.transform = ''; }, 600);
+      } else {
+        // 整体随机旋转魔方
+        const degX = Math.floor(Math.random() * 360);
+        const degY = Math.floor(Math.random() * 360);
+        const degZ = Math.floor(Math.random() * 360);
+        cubeEl.style.transition = 'transform 1s ease';
+        cubeEl.style.transform = `rotateX(${degX}deg) rotateY(${degY}deg) rotateZ(${degZ}deg)`;
+      }
+    }, 2000);
+  });
+</script>

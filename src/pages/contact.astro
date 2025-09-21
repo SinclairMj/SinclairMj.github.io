@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactCard from '../components/ContactCard.astro';
+---
+
+<Layout title="Contact">
+	<main>
+		<ContactCard
+			avatarUrl="/img/favicon/avatar/Bilir.png"
+			name="Bilir"
+			skills={["网络安全", "前端开发", "数据分析", "项目管理","python"]}
+			hobbies={["吹牛逼", "学习", "编程", "打篮球"]}
+		/>
+	</main>
+</Layout>
+
+<style>
+	main {
+		min-height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 2rem;
+	}
+</style>

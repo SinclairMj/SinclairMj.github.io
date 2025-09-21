@@ -1,0 +1,365 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { getPostBySlug, getAllPosts } from '../../utils/blog';
+import type { BlogPost } from '../../utils/blog';
+
+export async function getStaticPaths() {
+  const posts = getAllPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+
+// 检查是否在Cloudflare环境中
+// 在Cloudflare环境中，process.cwd() 会抛出错误
+let isCloudflareEnv = false;
+try {
+  process.cwd();
+  isCloudflareEnv = false;
+} catch (error) {
+  isCloudflareEnv = true;
+}
+
+if (isCloudflareEnv) {
+  console.log('Detected Cloudflare environment, redirecting to error page');
+  return Astro.redirect('/blog/error');
+}
+
+const postData = getPostBySlug(slug!);
+
+if (!postData) {
+  return Astro.redirect('/blog/error');
+}
+
+// 处理图片路径，将相对路径转换为绝对路径
+function processContent(content: string): string {
+  // 替换图片路径，将相对路径转换为 /assets/images/ 路径
+  return content.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, src) => {
+    // 如果是相对路径，转换为绝对路径
+    if (!src.startsWith('http') && !src.startsWith('/')) {
+      src = `/assets/images/${src}`;
+    }
+    return `![${alt}](${src})`;
+  });
+}
+
+const processedContent = processContent(postData.content);
+---
+
+<BlogLayout title={postData.title}>
+  <main class="blog-post">
+    <div class="post-container">
+      <header class="post-header">
+        <div class="post-meta">
+          <span class="author">By {postData.author}</span>
+          <span class="date">{new Date(postData.date).toLocaleDateString()}</span>
+        </div>
+        
+        <h1 class="post-title">{postData.title}</h1>
+        
+        <div class="post-tags-categories">
+          <div class="post-categories">
+            {postData.categories.map(category => (
+              <span class="category-tag">{category}</span>
+            ))}
+          </div>
+          
+          <div class="post-tags">
+            {postData.tags.map(tag => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        </div>
+      </header>
+
+      <article class="post-content">
+        <div class="content-wrapper" set:html={processedContent}></div>
+      </article>
+
+      <footer class="post-footer">
+        <div class="navigation-links">
+          <a href="/blog/list" class="back-link">← Back to Blog</a>
+        </div>
+      </footer>
+    </div>
+  </main>
+</BlogLayout>
+
+<style>
+  .blog-post {
+    min-height: 100vh;
+    padding: 2rem;
+    padding-top: 6rem;
+  }
+
+  .post-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .post-header {
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .post-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .post-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #ff6b6b, #4ecdc4, #ff6b6b);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin: 0 0 2rem 0;
+    line-height: 1.2;
+  }
+
+  .post-tags-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .post-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .category-tag {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .tag {
+    background: linear-gradient(45deg, #4ecdc4, #6ee7d7);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+  }
+
+  .post-content {
+    margin-bottom: 3rem;
+  }
+
+  .content-wrapper {
+    color: rgba(0, 0, 0, 0.8);
+    line-height: 1.8;
+    font-size: 1.1rem;
+  }
+
+  .content-wrapper h1,
+  .content-wrapper h2,
+  .content-wrapper h3,
+  .content-wrapper h4,
+  .content-wrapper h5,
+  .content-wrapper h6 {
+    color: rgba(0, 0, 0, 0.9);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+
+  .content-wrapper h1 {
+    font-size: 2rem;
+    background: linear-gradient(to right, #ff6b6b, #4ecdc4);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .content-wrapper h2 {
+    font-size: 1.8rem;
+    border-bottom: 2px solid rgba(255, 107, 107, 0.3);
+    padding-bottom: 0.5rem;
+  }
+
+  .content-wrapper h3 {
+    font-size: 1.5rem;
+  }
+
+  .content-wrapper p {
+    margin-bottom: 1.5rem;
+  }
+
+  .content-wrapper ul,
+  .content-wrapper ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+  }
+
+  .content-wrapper li {
+    margin-bottom: 0.5rem;
+  }
+
+  .content-wrapper blockquote {
+    border-left: 4px solid #ff6b6b;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    background: rgba(255, 107, 107, 0.1);
+    padding: 1rem 1.5rem;
+    border-radius: 0 10px 10px 0;
+  }
+
+  .content-wrapper code {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+  }
+
+  .content-wrapper pre {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin: 2rem 0;
+  }
+
+  .content-wrapper pre code {
+    background: none;
+    padding: 0;
+  }
+
+  .content-wrapper img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 2rem 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .content-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .content-wrapper th,
+  .content-wrapper td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .content-wrapper th {
+    background: rgba(255, 107, 107, 0.2);
+    font-weight: bold;
+  }
+
+  .post-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 2rem;
+  }
+
+  .navigation-links {
+    display: flex;
+    justify-content: center;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: linear-gradient(45deg, #4ecdc4, #6ee7d7);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .back-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .blog-post {
+      padding: 1rem;
+      padding-top: 5rem;
+    }
+
+    .post-container {
+      padding: 2rem;
+    }
+
+    .post-title {
+      font-size: 2rem;
+    }
+
+    .post-meta {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .content-wrapper {
+      font-size: 1rem;
+    }
+
+    .content-wrapper h1 {
+      font-size: 1.8rem;
+    }
+
+    .content-wrapper h2 {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 检查认证状态
+    if (sessionStorage.getItem('blogAuthenticated') !== 'true') {
+      window.location.href = '/blog';
+      return;
+    }
+
+    // 添加代码高亮（如果需要的话）
+    const codeBlocks = document.querySelectorAll('pre code');
+    codeBlocks.forEach(block => {
+      if (block instanceof HTMLElement) {
+        block.style.background = 'rgba(0, 0, 0, 0.1)';
+        block.style.padding = '1rem';
+        block.style.borderRadius = '8px';
+        block.style.display = 'block';
+        block.style.overflow = 'auto';
+      }
+    });
+  });
+</script>

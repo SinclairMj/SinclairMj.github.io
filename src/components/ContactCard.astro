@@ -1,0 +1,103 @@
+---
+interface Props {
+  avatarUrl: string;
+  name: string;
+  skills: string[];
+  hobbies: string[];
+}
+
+const { avatarUrl, name, skills, hobbies } = Astro.props;
+---
+
+<div class="contact-card">
+  <div class="avatar-container">
+    <img src={avatarUrl} alt={name} class="avatar" />
+  </div>
+  <h2 class="name">{name}</h2>
+  
+  <div class="section">
+    <h3>技能</h3>
+    <div class="tags">
+      {skills.map(skill => (
+        <span class="tag skill-tag">{skill}</span>
+      ))}
+    </div>
+  </div>
+  
+  <div class="section">
+    <h3>爱好</h3>
+    <div class="tags">
+      {hobbies.map(hobby => (
+        <span class="tag hobby-tag">{hobby}</span>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .contact-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    max-width: 400px;
+    margin: 2rem auto;
+  }
+
+  .avatar-container {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .name {
+    text-align: center;
+    color: #ffffff;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section {
+    margin-bottom: 1.5rem;
+  }
+
+  .section h3 {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    padding: 0.4rem 1rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    color: #ffffff;
+  }
+
+  .skill-tag {
+    background: rgba(64, 156, 255, 0.3);
+    border: 1px solid rgba(64, 156, 255, 0.5);
+  }
+
+  .hobby-tag {
+    background: rgba(255, 123, 0, 0.3);
+    border: 1px solid rgba(255, 123, 0, 0.5);
+  }
+</style>

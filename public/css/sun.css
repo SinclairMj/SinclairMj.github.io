@@ -1,0 +1,134 @@
+/* 设置太阳容器的样式 */
+.sun-container {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 定义太阳的样式，包括大小、形状和动画效果 */
+.sun {
+  position: relative;
+  width: 25vmin;
+  height: 25vmin;
+  border-radius: 100%;
+  background-color: #ebf259;
+  box-shadow: inset #FFE5B4 0 0 0 3.5714285714vmin; /* 修改为页面背景色 #FFE5B4 */
+  animation: shimmer 6s ease alternate infinite;
+}
+
+/* 定义太阳光线的基本样式，包括位置和变换属性 */
+.ray {
+  position: absolute;
+  top: 0;
+  left: 12.5vmin; /* 调整为太阳半径 */
+  width: 0.625vmin; /* 减小为原来的一半 */
+  height: 3.125vmin; /* 减小为原来的一半 */
+  transform-origin: 0 12.5vmin; /* 调整为太阳半径 */
+  transform: translateY(12.5vmin); /* 调整为太阳半径 */
+  --rotate: 6deg;
+  --delay: -0.33s;
+  transform: rotate(var(--rotate));
+}
+
+/* 使用伪元素创建光线的层次效果，并设置动画 */
+.ray:before,
+.ray:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #e36700;
+}
+
+.ray:before {
+  height: 20%;
+  border-radius: 100%;
+  transform-origin: 50% 0;
+  animation: flare 1.6s linear infinite;
+  animation-delay: var(--delay);
+}
+
+.ray:after {
+  height: 100%;
+  transform-origin: 50% 100%;
+  animation: wave 0.8s linear alternate infinite;
+  animation-delay: var(--delay);
+}
+
+/* 为偶数光线设置不同的颜色 */
+.ray:nth-child(even):before,
+.ray:nth-child(even):after {
+  background-color: #e59a27;
+}
+
+/* 为每个第三光线设置独特的颜色 */
+.ray:nth-child(3n + 1):before,
+.ray:nth-child(3n + 1):after {
+  background-color: #f2c559;
+}
+
+/**
+ * wave动画关键帧定义
+ * 该动画通过调整元素的垂直缩放比例和位置，实现波浪效果
+ */
+@keyframes wave {
+  0% {
+    /* 初始状态：水平缩放比例为1，垂直缩放比例为0.5 */
+    transform: scale(1, 0.5);
+  }
+  50% {
+    /* 中间状态：水平缩放比例为1.2，垂直缩放比例为1.5，并且沿y轴向上移动5% */
+    transform: scale(1.2, 1.5) translateY(5%);
+  }
+  100% {
+    /* 结束状态：水平缩放比例为0.8，垂直缩放比例为2 */
+    transform: scale(0.8, 2);
+  }
+}
+
+/**
+ * flare动画关键帧定义
+ * 该动画通过调整元素的透明度和缩放比例，实现闪光效果
+ */
+@keyframes flare {
+  0% {
+    /* 初始状态：完全透明，缩放比例为0.2，并沿y轴向上移动一定距离 */
+    opacity: 0;
+    transform: scale(0.2) translateY(-4.1666666667vmin);
+  }
+  100% {
+    /* 结束状态：完全不透明，缩放比例为0.8，并沿y轴向上移动另一距离 */
+    opacity: 1;
+    transform: scale(0.8) translateY(-8.3333333333vmin);
+  }
+}
+
+/**
+ * shimmer动画关键帧定义
+ * 该动画通过轻微旋转和缩放元素，实现闪烁效果
+ */
+@keyframes shimmer {
+  to {
+    /* 结束状态：旋转5度，缩放比例为0.96 */
+    transform: rotate(5deg) scale(0.96);
+  }
+}
+
+/* 响应式设计，在小屏幕上调整太阳大小 */
+@media (max-width: 768px) {
+  .sun {
+    width: 20vmin; /* 减小为原来的一半 */
+    height: 20vmin; /* 减小为原来的一半 */
+  }
+  
+  .ray {
+    left: 10vmin; /* 调整为太阳半径 */
+    transform-origin: 0 10vmin; /* 调整为太阳半径 */
+  }
+}

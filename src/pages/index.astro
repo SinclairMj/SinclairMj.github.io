@@ -1,0 +1,104 @@
+---
+// 组件脚本（可引入API）
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="MoltinSite">
+  <main>
+    <div class="sun-container">
+      <div class="sun"></div>
+    </div>
+    <div class="text-container">
+      <h1 class="gradient-text">Eternal burning wings, take me away from the downfall of the mortal world</h1>
+      <h1 class="shadow-text">Eternal burning wings, take me away from the downfall of the mortal world</h1>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+    perspective: 1000px;
+    position: relative;
+  }
+
+  .text-container {
+    position: relative;
+    transform-style: preserve-3d;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .gradient-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    max-width: 800px;
+    background: linear-gradient(
+      to right,
+      #ff6b6b,
+      #4ecdc4,
+      #ff6b6b
+    );
+    background-size: 200% auto;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: shine 3s linear infinite;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .shadow-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    max-width: 800px;
+    margin: 0;
+    color: rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    animation: shadowMove 3s ease-in-out infinite;
+    transform: translateZ(-10px);
+  }
+
+  @keyframes shine {
+    to {
+      background-position: 200% center;
+    }
+  }
+
+  @keyframes shadowMove {
+    0%, 100% {
+      transform: translate(4px, 4px) translateZ(-10px);
+    }
+    50% {
+      transform: translate(-4px, -4px) translateZ(-10px);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) rotateX(2deg);
+    }
+    50% {
+      transform: translateY(-20px) rotateX(-2deg);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .gradient-text,
+    .shadow-text {
+      font-size: 1.8rem;
+    }
+  }
+</style>
+
+<link rel="stylesheet" href="/css/sun.css">
+<script src="/js/sun.js" defer></script>
