@@ -271,6 +271,52 @@ npm run build
 - GitHub Actions只处理dist目录
 - 避免路径冲突和循环依赖
 
+**状态**：🔄 修复中
+
+---
+
+### 问题10：GitHub Pages显示HTML但资源文件无法加载
+**时间**：2024年1月
+**问题描述**：GitHub Pages显示HTML内容，但JavaScript和CSS文件无法加载，页面空白
+**现象**：
+- HTML文件正确显示
+- 控制台显示404错误：无法加载assets文件
+- 页面内容为空白
+
+**原因分析**：
+- GitHub Pages没有正确部署assets文件夹
+- 可能是GitHub Actions工作流配置问题
+- 或者GitHub Pages设置问题
+
+**解决方案**：
+1. 将构建产物直接复制到根目录
+2. 修改GitHub Actions工作流，部署整个根目录
+3. 确保assets文件夹在根目录可访问
+
+**解决步骤**：
+```bash
+# 1. 复制构建产物到根目录
+cp -r dist/* .
+
+# 2. 修改GitHub Actions工作流
+# - 构建后复制文件到根目录
+# - 部署整个根目录而不是dist目录
+
+# 3. 验证文件结构
+ls -la assets/
+```
+
+**已完成的修复**：
+1. ✅ 将构建产物复制到根目录
+2. ✅ 修改GitHub Actions工作流
+3. ✅ 确保assets文件夹在根目录
+4. ✅ 验证文件路径正确
+
+**关键改进**：
+- 直接部署根目录，避免路径问题
+- GitHub Actions自动复制构建产物
+- 确保所有资源文件可访问
+
 **状态**：✅ 已解决
 
 ---
