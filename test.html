@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test React App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(180deg, #FFE5B4 0%, #FFB4B4 100%);
+            min-height: 100vh;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .test-title {
+            color: #2D5A87;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .test-content {
+            color: #333;
+            line-height: 1.6;
+        }
+        .status {
+            background: #4ecdc4;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="test-title">MoltinSite Test Page</h1>
+        <div class="test-content">
+            <p><span class="status">✅ HTML加载成功</span></p>
+            <p><span class="status">✅ CSS样式正常</span></p>
+            <p><span class="status">✅ 页面结构正确</span></p>
+            
+            <h2>测试结果：</h2>
+            <ul>
+                <li>如果看到这个页面，说明GitHub Pages部署正常</li>
+                <li>如果页面有样式，说明CSS加载正常</li>
+                <li>如果页面有内容，说明HTML渲染正常</li>
+            </ul>
+            
+            <h2>下一步：</h2>
+            <p>如果这个测试页面正常显示，说明问题在于React应用的JavaScript执行。需要检查：</p>
+            <ul>
+                <li>浏览器控制台是否有JavaScript错误</li>
+                <li>React应用是否正确挂载到#root元素</li>
+                <li>是否有图片加载失败导致JavaScript执行中断</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        console.log('Test page loaded successfully');
+        console.log('Root element:', document.getElementById('root'));
+        console.log('Current URL:', window.location.href);
+    </script>
+</body>
+</html>
