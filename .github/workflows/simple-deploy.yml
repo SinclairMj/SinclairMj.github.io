@@ -1,0 +1,45 @@
+name: Simple Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build
+      run: npm run build
+      env:
+        NODE_ENV: production
+        
+    - name: Deploy
+      run: |
+        # 将构建文件复制到根目录
+        cp -r dist/* .
+        
+        # 配置git
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # 添加所有文件
+        git add .
+        
+        # 提交更改
+        git commit -m "Deploy to GitHub Pages" || exit 0
+        
+        # 推送到main分支
+        git push origin main
