@@ -1,0 +1,338 @@
+:root {
+  --accent: 136, 58, 234;
+  --accent-light: 224, 204, 250;
+  --accent-dark: 49, 10, 101;
+  --accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, white 60%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: system-ui, sans-serif;
+  background: linear-gradient(180deg, #FFE5B4 0%, #FFB4B4 100%);
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+code {
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+/* 导航栏样式 */
+.navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.home-button {
+  margin-left: 1rem;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-right: 1rem;
+}
+
+.nav-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 9999px;
+  font-size: 1rem;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.nav-button:hover,
+.nav-button.active {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.glass-button {
+  display: inline-flex;
+  align-items: center;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.glass-button .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+/* 主页样式 */
+.home-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  perspective: 1000px;
+  position: relative;
+}
+
+.text-container {
+  position: relative;
+  transform-style: preserve-3d;
+  animation: float 6s ease-in-out infinite;
+}
+
+.gradient-text {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  max-width: 800px;
+  background: linear-gradient(
+    to right,
+    #ff6b6b,
+    #4ecdc4,
+    #ff6b6b
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shine 3s linear infinite;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.shadow-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  max-width: 800px;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  animation: shadowMove 3s ease-in-out infinite;
+  transform: translateZ(-10px);
+}
+
+/* 太阳容器样式 */
+.sun-container {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 太阳样式 */
+.sun {
+  position: relative;
+  width: 25vmin;
+  height: 25vmin;
+  border-radius: 100%;
+  background-color: #ebf259;
+  box-shadow: inset #FFE5B4 0 0 0 3.5714285714vmin;
+  animation: shimmer 6s ease alternate infinite;
+}
+
+/* 太阳光线样式 */
+.ray {
+  position: absolute;
+  top: 0;
+  left: 12.5vmin;
+  width: 0.625vmin;
+  height: 3.125vmin;
+  transform-origin: 0 12.5vmin;
+  transform: translateY(12.5vmin);
+  --rotate: 6deg;
+  --delay: -0.33s;
+  transform: rotate(var(--rotate));
+}
+
+.ray:before,
+.ray:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #e36700;
+}
+
+.ray:before {
+  height: 20%;
+  border-radius: 100%;
+  transform-origin: 50% 0;
+  animation: flare 1.6s linear infinite;
+  animation-delay: var(--delay);
+}
+
+.ray:after {
+  height: 100%;
+  transform-origin: 50% 100%;
+  animation: wave 0.8s linear alternate infinite;
+  animation-delay: var(--delay);
+}
+
+.ray:nth-child(even):before,
+.ray:nth-child(even):after {
+  background-color: #e59a27;
+}
+
+.ray:nth-child(3n + 1):before,
+.ray:nth-child(3n + 1):after {
+  background-color: #f2c559;
+}
+
+/* 页面内容样式 */
+.page-content {
+  padding: 6rem 2rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.content-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  background: linear-gradient(
+    to right,
+    #ff6b6b,
+    #4ecdc4,
+    #ff6b6b
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shine 3s linear infinite;
+}
+
+/* 动画关键帧 */
+@keyframes wave {
+  0% {
+    transform: scale(1, 0.5);
+  }
+  50% {
+    transform: scale(1.2, 1.5) translateY(5%);
+  }
+  100% {
+    transform: scale(0.8, 2);
+  }
+}
+
+@keyframes flare {
+  0% {
+    opacity: 0;
+    transform: scale(0.2) translateY(-4.1666666667vmin);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(0.8) translateY(-8.3333333333vmin);
+  }
+}
+
+@keyframes shimmer {
+  to {
+    transform: rotate(5deg) scale(0.96);
+  }
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes shadowMove {
+  0%, 100% {
+    transform: translate(4px, 4px) translateZ(-10px);
+  }
+  50% {
+    transform: translate(-4px, -4px) translateZ(-10px);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotateX(2deg);
+  }
+  50% {
+    transform: translateY(-20px) rotateX(-2deg);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .sun {
+    width: 20vmin;
+    height: 20vmin;
+  }
+  
+  .ray {
+    left: 10vmin;
+    transform-origin: 0 10vmin;
+  }
+
+  .gradient-text,
+  .shadow-text {
+    font-size: 1.8rem;
+  }
+
+  .page-content {
+    padding: 5rem 1rem 2rem;
+  }
+  
+  .content-card {
+    padding: 2rem;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+}
