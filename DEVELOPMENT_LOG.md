@@ -414,6 +414,57 @@ git push origin main
 - 确保assets文件夹在根目录可访问
 - 避免GitHub Actions的复杂配置问题
 
+**状态**：🔄 最终修复
+
+---
+
+### 问题13：GitHub Actions构建失败 - 根目录index.html问题
+**时间**：2024年1月
+**问题描述**：GitHub Actions构建时仍然出现Rollup错误，无法解析构建后的资源路径
+**错误信息**：
+```
+Error: [vite]: Rollup failed to resolve import "/SinclairMj.github.io/assets/index-f82bd4f9.js" from "/home/runner/work/SinclairMj.github.io/SinclairMj.github.io/index.html".
+```
+
+**根本原因**：
+- 根目录的index.html是构建后的文件，包含绝对路径
+- GitHub Actions构建时尝试解析这些不存在的预构建文件
+- 需要确保GitHub Actions使用原始的React入口文件
+
+**最终解决方案**：
+1. 恢复根目录的原始React入口index.html
+2. 删除根目录下的assets文件夹
+3. 修改GitHub Actions工作流，先构建再复制
+4. 确保构建过程使用正确的入口文件
+
+**解决步骤**：
+```bash
+# 1. 恢复原始React入口文件
+# 2. 删除根目录assets文件夹
+rm -rf assets
+
+# 3. 修改GitHub Actions工作流
+# - 先构建项目（使用原始index.html）
+# - 再复制构建产物到根目录
+# - 提交并推送到GitHub
+
+# 4. 验证构建成功
+npm run build
+```
+
+**已完成的修复**：
+1. ✅ 恢复原始的React入口index.html
+2. ✅ 删除根目录下的assets文件夹
+3. ✅ 修改GitHub Actions工作流
+4. ✅ 验证本地构建成功
+5. ✅ 确保构建过程使用正确入口文件
+
+**关键修复点**：
+- 源代码和构建产物完全分离
+- GitHub Actions使用原始入口文件构建
+- 构建完成后自动复制assets到根目录
+- 避免循环依赖问题
+
 **状态**：✅ 已解决
 
 ---

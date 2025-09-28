@@ -52,7 +52,12 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add .
-        git commit -m "Auto-deploy: Build and copy assets to root directory" || exit 0
+        git commit -m "Auto-deploy: Build and copy assets to root directory
+
+- Build React project for production
+- Copy dist/* to root directory
+- Ensure assets folder is accessible on GitHub Pages
+- Fix blank page issue by providing all necessary files" || exit 0
         git push
         
     - name: Setup Pages
