@@ -3,6 +3,14 @@ import React from 'react'
 const Blog = () => {
   const articles = [
     {
+      id: 'development-log',
+      title: '开发记录与问题解决日志',
+      excerpt: '记录项目开发过程中的所有问题、解决方案和技术演进，包括GitHub Pages部署、React框架迁移、性能优化等关键问题的解决过程。',
+      date: 'Jan 28, 2024',
+      readTime: '15 min read',
+      tags: ['开发记录', '问题解决', '技术总结']
+    },
+    {
       id: 'javascript-async',
       title: 'JavaScript Asynchronous Programming Deep Dive',
       excerpt: 'An in-depth exploration of JavaScript\'s asynchronous programming patterns, including Promises, async/await, and their practical applications in modern web development.',
@@ -37,7 +45,12 @@ const Blog = () => {
   ]
 
   const handleArticleClick = (articleId) => {
-    alert(`Article: ${articleId} - Coming soon!`)
+    if (articleId === 'development-log') {
+      // 打开开发记录页面
+      window.open('/DEVELOPMENT_LOG.md', '_blank')
+    } else {
+      alert(`Article: ${articleId} - Coming soon!`)
+    }
   }
 
   return (
