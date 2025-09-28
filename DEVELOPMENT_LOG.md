@@ -317,6 +317,56 @@ ls -la assets/
 - GitHub Actions自动复制构建产物
 - 确保所有资源文件可访问
 
+**状态**：🔄 修复中
+
+---
+
+### 问题11：GitHub Actions构建失败 - 循环依赖问题
+**时间**：2024年1月
+**问题描述**：GitHub Actions构建时出现Rollup错误，无法解析构建后的资源路径
+**错误信息**：
+```
+Error: [vite]: Rollup failed to resolve import "/SinclairMj.github.io/assets/index-f82bd4f9.js" from "/home/runner/work/SinclairMj.github.io/SinclairMj.github.io/index.html".
+```
+
+**原因分析**：
+- 根目录的index.html包含了构建后的绝对路径
+- 构建时尝试解析这些不存在的预构建文件
+- 形成循环依赖：构建产物引用构建产物
+
+**解决方案**：
+1. 恢复原始的React入口index.html
+2. 删除根目录下的assets文件夹
+3. 修改GitHub Actions工作流，先构建再复制
+4. 确保构建过程干净，不依赖预构建文件
+
+**解决步骤**：
+```bash
+# 1. 恢复原始React入口文件
+# 2. 删除根目录assets文件夹
+rm -rf assets
+
+# 3. 修改GitHub Actions工作流
+# - 先构建项目
+# - 再复制构建产物到根目录
+# - 部署整个根目录
+
+# 4. 验证构建成功
+npm run build
+```
+
+**已完成的修复**：
+1. ✅ 恢复原始的React入口index.html
+2. ✅ 删除根目录下的assets文件夹
+3. ✅ 修改GitHub Actions工作流
+4. ✅ 验证本地构建成功
+5. ✅ 确保构建产物路径正确
+
+**关键修复点**：
+- 源代码和构建产物完全分离
+- 构建过程不依赖预构建文件
+- GitHub Actions先构建再复制，避免循环依赖
+
 **状态**：✅ 已解决
 
 ---
