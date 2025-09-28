@@ -26,6 +26,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicon-16x16.png">
     <link rel="apple-touch-icon" href="/img/icons/apple-touch-icon.png">
+    <link rel="manifest" href="/img/icons/site.webmanifest">
     
     <!-- Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -188,6 +189,24 @@
             text-align: center;
         }
         
+        .about-avatar {
+            margin-bottom: 2rem;
+        }
+        
+        .avatar-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #e2e8f0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .avatar-img:hover {
+            transform: scale(1.05);
+        }
+        
         .about-text p {
             font-size: 1.1rem;
             margin-bottom: 1.5rem;
@@ -348,6 +367,157 @@
             padding: 2rem 0;
         }
         
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+        
+        .modal-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #f1f5f9;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #64748b;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        .markdown-content {
+            line-height: 1.8;
+            color: #374151;
+        }
+        
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3,
+        .markdown-content h4,
+        .markdown-content h5,
+        .markdown-content h6 {
+            margin: 2rem 0 1rem 0;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .markdown-content h1 {
+            font-size: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+        
+        .markdown-content h2 {
+            font-size: 1.5rem;
+        }
+        
+        .markdown-content h3 {
+            font-size: 1.25rem;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .markdown-content ul,
+        .markdown-content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .markdown-content code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .markdown-content pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .markdown-content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+        
+        .markdown-content blockquote {
+            border-left: 4px solid #2563eb;
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            color: #64748b;
+            font-style: italic;
+        }
+        
         @media (max-width: 768px) {
             .hero-title {
                 font-size: 2.5rem;
@@ -365,6 +535,16 @@
             .contact-links {
                 flex-direction: column;
                 align-items: center;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+            
+            .modal-header,
+            .modal-body {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -404,6 +584,9 @@
             <div class="container">
                 <h2 class="section-title">关于我</h2>
                 <div class="about-content">
+                    <div class="about-avatar">
+                        <img src="/img/avatars/Bilir.png" alt="Bilir头像" class="avatar-img">
+                    </div>
                     <div class="about-text">
                         <p>我是一名热爱学习和分享的开发者，专注于技术研究和知识积累。</p>
                         <p>在这里，我会记录我的学习心得、技术探索和思考感悟，希望能够与大家分享交流。</p>
@@ -428,7 +611,7 @@
                 <h2 class="section-title">最新文章</h2>
                 
                 <div class="articles-grid">
-                    <div class="article-card">
+                    <div class="article-card" onclick="showArticle(1)">
                         <div class="article-meta">
                             <span class="article-category">技术</span>
                             <span class="article-date">2024年1月15日</span>
@@ -442,7 +625,7 @@
                         <div class="article-read-time">阅读时间: 8分钟</div>
                     </div>
                     
-                    <div class="article-card">
+                    <div class="article-card" onclick="showArticle(2)">
                         <div class="article-meta">
                             <span class="article-category">学习</span>
                             <span class="article-date">2024年1月10日</span>
@@ -456,7 +639,7 @@
                         <div class="article-read-time">阅读时间: 12分钟</div>
                     </div>
                     
-                    <div class="article-card">
+                    <div class="article-card" onclick="showArticle(3)">
                         <div class="article-meta">
                             <span class="article-category">学习</span>
                             <span class="article-date">2024年1月5日</span>
@@ -470,7 +653,7 @@
                         <div class="article-read-time">阅读时间: 6分钟</div>
                     </div>
                     
-                    <div class="article-card">
+                    <div class="article-card" onclick="showArticle(4)">
                         <div class="article-meta">
                             <span class="article-category">技术</span>
                             <span class="article-date">2024年1月1日</span>
@@ -508,6 +691,25 @@
         </section>
     </main>
 
+    <!-- 文章详情模态框 -->
+    <div id="articleModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeArticle()">&times;</button>
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <div class="modal-meta">
+                    <span id="modalCategory" class="article-category"></span>
+                    <span id="modalDate" class="article-date"></span>
+                    <span id="modalReadTime" class="article-read-time"></span>
+                </div>
+                <div id="modalTags" class="article-tags"></div>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent" class="markdown-content"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- 页脚 -->
     <footer class="footer">
         <div class="container">
@@ -516,6 +718,243 @@
     </footer>
 
     <script>
+        // 文章数据
+        const articles = {
+            1: {
+                title: "JavaScript异步编程深度解析",
+                category: "技术",
+                date: "2024年1月15日",
+                readTime: "8分钟",
+                tags: ["前端", "JavaScript"],
+                content: `
+                    <h1>JavaScript异步编程深度解析</h1>
+                    
+                    <h2>引言</h2>
+                    <p>JavaScript作为一门单线程语言，异步编程是其核心特性之一。本文将深入探讨JavaScript中的各种异步编程模式，帮助开发者更好地理解和运用异步编程。</p>
+                    
+                    <h2>Promise详解</h2>
+                    <p>Promise是ES6引入的重要特性，它解决了回调地狱的问题，让异步代码更加清晰易读。</p>
+                    
+                    <h3>基本用法</h3>
+                    <pre><code>const promise = new Promise((resolve, reject) => {
+  // 异步操作
+  setTimeout(() => {
+    resolve('操作成功');
+  }, 1000);
+});
+
+promise.then(result => {
+  console.log(result);
+}).catch(error => {
+  console.error(error);
+});</code></pre>
+                    
+                    <h2>async/await的使用</h2>
+                    <p>async/await让异步代码看起来像同步代码，大大提高了代码的可读性。</p>
+                    
+                    <h3>基本语法</h3>
+                    <pre><code>async function fetchData() {
+  try {
+    const response = await fetch('/api/data');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('获取数据失败:', error);
+  }
+}</code></pre>
+                    
+                    <h2>总结</h2>
+                    <p>异步编程是JavaScript开发中的重要概念，掌握Promise和async/await的使用，能够让我们写出更加优雅和高效的代码。在实际开发中，要根据具体场景选择合适的异步处理方式。</p>
+                `
+            },
+            2: {
+                title: "Python数据分析入门指南",
+                category: "学习",
+                date: "2024年1月10日",
+                readTime: "12分钟",
+                tags: ["Python", "数据分析"],
+                content: `
+                    <h1>Python数据分析入门指南</h1>
+                    
+                    <h2>环境搭建</h2>
+                    <p>首先需要安装必要的库：</p>
+                    <pre><code>pip install pandas numpy matplotlib seaborn jupyter</code></pre>
+                    
+                    <h2>数据读取与处理</h2>
+                    <h3>使用pandas读取数据</h3>
+                    <pre><code>import pandas as pd
+import numpy as np
+
+# 读取CSV文件
+df = pd.read_csv('data.csv')
+
+# 读取Excel文件
+df = pd.read_excel('data.xlsx')
+
+# 读取JSON文件
+df = pd.read_json('data.json')</code></pre>
+                    
+                    <h2>数据可视化</h2>
+                    <h3>使用matplotlib</h3>
+                    <pre><code>import matplotlib.pyplot as plt
+
+# 创建图表
+plt.figure(figsize=(10, 6))
+plt.plot(df['date'], df['value'])
+plt.title('数据趋势图')
+plt.xlabel('日期')
+plt.ylabel('数值')
+plt.show()</code></pre>
+                    
+                    <h2>总结</h2>
+                    <p>Python数据分析是一个强大的工具，通过pandas、numpy、matplotlib等库，我们可以高效地进行数据处理、分析和可视化。掌握这些基础技能，能够帮助我们更好地理解和分析数据。</p>
+                `
+            },
+            3: {
+                title: "算法学习心得",
+                category: "学习",
+                date: "2024年1月5日",
+                readTime: "6分钟",
+                tags: ["算法", "思考"],
+                content: `
+                    <h1>算法学习心得</h1>
+                    
+                    <h2>学习方法</h2>
+                    <p>算法学习需要系统性和持续性，以下是我总结的一些有效方法：</p>
+                    
+                    <h3>1. 理论基础</h3>
+                    <ul>
+                        <li><strong>数据结构基础</strong>：数组、链表、栈、队列、树、图</li>
+                        <li><strong>算法复杂度</strong>：时间复杂度和空间复杂度的分析</li>
+                        <li><strong>常见算法模式</strong>：递归、分治、动态规划、贪心算法</li>
+                    </ul>
+                    
+                    <h2>刷题技巧</h2>
+                    <h3>1. 题目分类</h3>
+                    <ul>
+                        <li><strong>数组和字符串</strong>：双指针、滑动窗口</li>
+                        <li><strong>链表</strong>：快慢指针、反转链表</li>
+                        <li><strong>树</strong>：DFS、BFS、递归</li>
+                        <li><strong>图</strong>：最短路径、拓扑排序</li>
+                        <li><strong>动态规划</strong>：状态转移方程</li>
+                    </ul>
+                    
+                    <h2>总结</h2>
+                    <p>算法学习是一个长期的过程，需要持续练习和总结。通过系统性的学习和大量的实践，我们能够掌握各种算法模式，提高解决问题的能力。记住，算法不仅仅是编程技巧，更是一种思维方式。</p>
+                `
+            },
+            4: {
+                title: "Web开发最佳实践",
+                category: "技术",
+                date: "2024年1月1日",
+                readTime: "10分钟",
+                tags: ["前端", "后端"],
+                content: `
+                    <h1>Web开发最佳实践</h1>
+                    
+                    <h2>代码规范</h2>
+                    <p>良好的代码规范是项目成功的基础，以下是一些重要的规范：</p>
+                    
+                    <h3>1. HTML规范</h3>
+                    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;页面标题&lt;/title&gt;
+  &lt;meta name="description" content="页面描述"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- 语义化标签 --&gt;
+  &lt;header&gt;
+    &lt;nav&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href="/"&gt;首页&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/about"&gt;关于&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    
+                    <h2>性能优化</h2>
+                    <h3>1. 图片优化</h3>
+                    <pre><code>&lt;!-- 使用现代图片格式 --&gt;
+&lt;picture&gt;
+  &lt;source srcset="image.avif" type="image/avif"&gt;
+  &lt;source srcset="image.webp" type="image/webp"&gt;
+  &lt;img src="image.jpg" alt="描述" loading="lazy"&gt;
+&lt;/picture&gt;</code></pre>
+                    
+                    <h2>安全考虑</h2>
+                    <h3>1. 输入验证</h3>
+                    <pre><code>// 前端验证
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function sanitizeInput(input) {
+  return input
+    .replace(/[<>]/g, '') // 移除HTML标签
+    .trim() // 去除首尾空格
+    .substring(0, 100); // 限制长度
+}</code></pre>
+                    
+                    <h2>总结</h2>
+                    <p>Web开发最佳实践涵盖了代码规范、性能优化、安全考虑和可访问性等多个方面。遵循这些实践能够帮助我们构建更加健壮、高效和用户友好的Web应用。记住，最佳实践是不断发展的，我们需要持续学习和改进。</p>
+                `
+            }
+        };
+
+        // 显示文章详情
+        function showArticle(articleId) {
+            const article = articles[articleId];
+            if (!article) return;
+
+            document.getElementById('modalTitle').textContent = article.title;
+            document.getElementById('modalCategory').textContent = article.category;
+            document.getElementById('modalDate').textContent = article.date;
+            document.getElementById('modalReadTime').textContent = article.readTime;
+            
+            // 设置标签
+            const tagsContainer = document.getElementById('modalTags');
+            tagsContainer.innerHTML = '';
+            article.tags.forEach(tag => {
+                const tagElement = document.createElement('span');
+                tagElement.className = 'article-tag';
+                tagElement.textContent = tag;
+                tagsContainer.appendChild(tagElement);
+            });
+            
+            // 设置内容
+            document.getElementById('modalContent').innerHTML = article.content;
+            
+            // 显示模态框
+            document.getElementById('articleModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 关闭文章详情
+        function closeArticle() {
+            document.getElementById('articleModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 点击模态框外部关闭
+        document.getElementById('articleModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeArticle();
+            }
+        });
+
+        // ESC键关闭模态框
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeArticle();
+            }
+        });
+
         // 简单的平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
