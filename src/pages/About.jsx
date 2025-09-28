@@ -8,7 +8,7 @@ const About = () => {
         
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <img 
-            src="/img/avatars/Bilir.png" 
+            src="/SinclairMj.github.io/img/avatars/Bilir.png" 
             alt="Bilir" 
             style={{
               width: '150px',

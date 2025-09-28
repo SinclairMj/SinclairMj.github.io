@@ -8,7 +8,7 @@ const Navigation = () => {
     <div className="navigation">
       <div className="home-button">
         <Link to="/" className="glass-button">
-          <img src="/img/icons/android-chrome-192x192.png" alt="MoltinSite icon" className="icon" />
+          <img src="/SinclairMj.github.io/img/icons/android-chrome-192x192.png" alt="MoltinSite icon" className="icon" />
           <span>MoltinSite</span>
         </Link>
       </div>

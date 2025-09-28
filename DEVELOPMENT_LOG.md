@@ -532,7 +532,29 @@ git push origin main
 3. 检查网络请求是否成功
 4. 验证JavaScript是否正确执行
 
-**状态**：🔄 调试中
+**状态**：🔄 修复中
+
+---
+
+### 问题16：React SPA路由和图片路径问题
+**时间**：2024年1月
+**问题描述**：
+- React是单页应用，只有一个index.html
+- 所有页面通过JavaScript路由动态渲染
+- 图片路径可能无法在GitHub Pages上访问
+- 需要使用HashRouter的URL格式
+
+**根本原因**：
+- 用户期望看到独立的HTML文件，但React SPA只有一个入口
+- 图片路径`/img/avatars/Bilir.png`可能无法访问
+- 需要修复图片路径和路由问题
+
+**解决方案**：
+1. 修复图片路径，使用正确的GitHub Pages路径
+2. 确保所有资源文件正确部署
+3. 测试HashRouter路由是否正常工作
+
+**状态**：🔄 实施中
 
 ---
 
