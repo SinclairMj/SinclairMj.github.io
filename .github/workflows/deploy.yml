@@ -6,7 +6,7 @@ on:
 
 # 设置权限
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -22,7 +22,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
@@ -39,13 +41,19 @@ jobs:
         
     - name: Copy build files to root
       run: |
-        # 备份原始文件
-        cp index.html index.html.backup
-        # 复制构建产物
+        # 复制构建产物到根目录
         cp -r dist/* .
         # 验证文件结构
         ls -la
         ls -la assets/
+        
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "Auto-deploy: Build and copy assets to root directory" || exit 0
+        git push
         
     - name: Setup Pages
       uses: actions/configure-pages@v4
